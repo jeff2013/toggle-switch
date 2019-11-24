@@ -123,130 +123,130 @@ const toggleStyle = `
  * @name toggle-switch
  */
 class ToggleSwitch extends HTMLElement {
- static get observedAttributes() {
-  return ['checked', 'disabled'];
- }
+	static get observedAttributes() {
+		return [ 'checked', 'disabled' ];
+	}
 
-  get value() {
-    return this.hasAttribute('checked');
-  }
+	get value() {
+		return this.hasAttribute('checked');
+	}
 
-  set value(checked) {
-    if (checked) {
-      this.setAttribute('checked', '');
-    } else {
-      this.removeAttribute('checked');
-    }
-  }
+	set value(checked) {
+		if (checked) {
+			this.setAttribute('checked', '');
+		} else {
+			this.removeAttribute('checked');
+		}
+	}
 
-  get disabled() {
-    return this.hasAttribute('disabled');
-  }
+	get disabled() {
+		return this.hasAttribute('disabled');
+	}
 
-  set disabled(disabled) {
-    if (disabled) {
-      this.setAttribute('disabled', '');
-    } else {
-      this.removeAttribute('disabled');
-    }
-  }
+	set disabled(disabled) {
+		if (disabled) {
+			this.setAttribute('disabled', '');
+		} else {
+			this.removeAttribute('disabled');
+		}
+	}
 
-  constructor() {
-    super();
-  }
+	constructor() {
+		super();
+	}
 
-  initializeDom() {
-    this.setAttribute('role', 'switch checkbox');
-    this.setAttribute('tabindex', '0');
-    this.setAttribute('aria-checked', String(this.value));
+	initializeDom() {
+		this.setAttribute('role', 'switch checkbox');
+		this.setAttribute('tabindex', '0');
+		this.setAttribute('aria-checked', String(this.value));
 
-    const label = document.createElement('label');
-    label.classList.add('switch');
-    label.setAttribute('id', 'toggle-label');
+		const label = document.createElement('label');
+		label.classList.add('switch');
+		label.setAttribute('id', 'toggle-label');
 
-    this.input = document.createElement('input');
-    this.input.setAttribute('type', 'checkbox');
-    this.input.onchange = (e) => this.onChange(e);
-    this.input.checked = this.value;
-    this.input.classList.add('toggle');
-    this.input.setAttribute('aria-describedby', 'toggle-label');
-    if (this.disabled) {
-      this.input.setAttribute('disabled', '');
-    }
+		this.input = document.createElement('input');
+		this.input.setAttribute('type', 'checkbox');
+		this.input.onchange = (e) => this.onChange(e);
+		this.input.checked = this.value;
+		this.input.classList.add('toggle');
+		this.input.setAttribute('aria-describedby', 'toggle-label');
+		if (this.disabled) {
+			this.input.setAttribute('disabled', '');
+		}
 
-    this.addEventListener('keypress', (e) => this.onKeyPress(e));
+		this.addEventListener('keypress', (e) => this.onKeyPress(e));
 
-    const span = document.createElement('span');
-    span.classList.add('slider', 'round');
-    span.setAttribute('id', 'slider');
+		const span = document.createElement('span');
+		span.classList.add('slider', 'round');
+		span.setAttribute('id', 'slider');
 
-    label.append(this.input, span);
-    this.appendChild(label);
-  }
+		label.append(this.input, span);
+		this.appendChild(label);
+	}
 
-  connectedCallback() {
-    this.addStyles(toggleStyle);
-    this.initializeDom();
-  }
+	connectedCallback() {
+		this.addStyles(toggleStyle);
+		this.initializeDom();
+	}
 
-  addStyles(styles) {
-    const toggleSwitchId = 'toggle-switch-style';
+	addStyles(styles) {
+		const toggleSwitchId = 'toggle-switch-style';
 
-    // Don't add style more than once.
-    if (!document.getElementById(toggleSwitchId)) {
-      const styleEl = document.createElement('style');
-      styleEl.id = toggleSwitchId;
-      styleEl.appendChild(document.createTextNode(styles));
+		// Don't add style more than once.
+		if (!document.getElementById(toggleSwitchId)) {
+			const styleEl = document.createElement('style');
+			styleEl.id = toggleSwitchId;
+			styleEl.appendChild(document.createTextNode(styles));
 
-      let insertPoint = document.querySelector('style');
-      if (insertPoint) {
-        insertPoint.parentNode.insertBefore(styleEl, insertPoint);
-      } else if (insertPoint = document.querySelector('head')) {
-        insertPoint.appendChild(styleEl);
-      } else {
-        document.appendChild(styleEl);
-      }
-    }
-  }
+			let insertPoint = document.querySelector('style');
+			if (insertPoint) {
+				insertPoint.parentNode.insertBefore(styleEl, insertPoint);
+			} else if ((insertPoint = document.querySelector('head'))) {
+				insertPoint.appendChild(styleEl);
+			} else {
+				document.appendChild(styleEl);
+			}
+		}
+	}
 
-  onChange(event) {
-    if (!this.disabled) {
-      this.value = !this.value;
-      this.input.checked = this.value;
-      this.setAttribute('aria-checked', String(this.value));
+	onChange(event) {
+		if (!this.disabled) {
+			this.value = !this.value;
+			this.input.checked = this.value;
+			this.setAttribute('aria-checked', String(this.value));
 
-      this.dispatchEvent(new Event('input', {bubbles: true, composed: true}));
-      this.dispatchEvent(new Event('change', {bubbles: true, composed: true}));
-    }
-  }
+			this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+			this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+		}
+	}
 
-  attributeChangedCallback(attrName, oldVal, newVal) {
-    if (attrName === 'checked' && this.input) {
-      this.input.checked = newVal === '';
-      this.setAttribute('aria-checked', String(this.value));
-    }
+	attributeChangedCallback(attrName, oldVal, newVal) {
+		if (attrName === 'checked' && this.input) {
+			this.input.checked = newVal === '';
+			this.setAttribute('aria-checked', String(this.value));
+		}
 
-    if (attrName === 'disabled' && this.input) {
-      if (newVal) {
-        this.disabled = true;
-        this.input.setAttribute('disabled', '');
-      } else {
-        this.disabled = false;
-        this.input.removeAttribute('disabled');
-      }
-    }
-  }
+		if (attrName === 'disabled' && this.input) {
+			if (newVal) {
+				this.disabled = true;
+				this.input.setAttribute('disabled', '');
+			} else {
+				this.disabled = false;
+				this.input.removeAttribute('disabled');
+			}
+		}
+	}
 
-  onKeyPress(event) {
-    if (event.keyCode === 32) {
-      this.onChange(event);
-      event.preventDefault();
-    }
-  }
+	onKeyPress(event) {
+		if (event.keyCode === 32) {
+			this.onChange(event);
+			event.preventDefault();
+		}
+	}
 
-  disconnectedCallback() {
-    this.removeEventListener('keypress', (e) => this.onKeyPress(e));
-  }
+	disconnectedCallback() {
+		this.removeEventListener('keypress', (e) => this.onKeyPress(e));
+	}
 }
 
 customElements.define('toggle-switch', ToggleSwitch);
