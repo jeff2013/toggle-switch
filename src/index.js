@@ -3,12 +3,6 @@ import './components/toggle-switch.js';
 const template = document.createElement('template');
 
 template.innerHTML = `
-  <style>
-    :host {
-      font-family: sans-serif;
-    }
-  </style>
-
   <div>
     <h1>Hello world</h1>
     <toggle-switch></toggle-switch>
@@ -18,9 +12,9 @@ template.innerHTML = `
 class App extends HTMLElement {
 	constructor() {
 		super();
-
-		this._shadowRoot = this.attachShadow({ mode: 'open' });
-		this._shadowRoot.appendChild(template.content.cloneNode(true));
+		const rootElement = document.createElement('div');
+		rootElement.appendChild(template.content.cloneNode(true));
+		this.appendChild(rootElement);
 	}
 }
 
